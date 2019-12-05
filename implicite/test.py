@@ -25,7 +25,7 @@ def get_lr(optimizer):
         return param_group['lr']
 
 def run_test(model='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, top_k=10,
-            num_layers=3, num_ng=4, out=True, gpu=0):
+            num_layers=3, num_ng=4, out=True, gpu='0'):
     torch.manual_seed(12)
     torch.cuda.manual_seed(12)
     np.random.seed(12)
