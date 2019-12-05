@@ -10,10 +10,10 @@ import torch.utils.data as data
 import torch.backends.cudnn as cudnn
 from tensorboardX import SummaryWriter
 
-import model
-import config
-import evaluate
-import data_utils
+from implicite import model
+from implicite import config
+from implicite import evaluate
+from implicite import data_utils
 
 torch.manual_seed(12)
 torch.cuda.manual_seed(12)
