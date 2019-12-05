@@ -4,7 +4,7 @@ import scipy.sparse as sp
 
 import torch.utils.data as data
 
-import config
+from resystools.implicite import config
 
 
 def load_all(test_num=100):
