@@ -25,7 +25,7 @@ class CF(object):
         users = self.Y_data[:, 0] # all users - first col of the Y_data
         self.Ybar_data = self.Y_data.copy()
         self.mu = np.zeros((self.n_users,))
-        for n in xrange(self.n_users):
+        for n in range(self.n_users):
             # row indices of rating done by user n
             # since indices need to be integers, we need to convert
             ids = np.where(users == n)[0].astype(np.int32)
@@ -111,7 +111,7 @@ class CF(object):
         ids = np.where(self.Y_data[:, 0] == u)[0]
         items_rated_by_u = self.Y_data[ids, 1].tolist()              
         recommended_items = []
-        for i in xrange(self.n_items):
+        for i in range(self.n_items):
             if i not in items_rated_by_u:
                 rating = self.__pred(u, i)
                 if rating > 0: 
@@ -121,8 +121,8 @@ class CF(object):
     
     def recommend2(self, u):
         """
-        Determine all items should be recommended for user u.
-        The decision is made based on all i such that:
+        Determine  items should be recommended for user u.
+        The decisionall is made based on all i such that:
         self.pred(u, i) > 0. Suppose we are considering items which 
         have not been rated by u yet. 
         """
@@ -142,10 +142,10 @@ class CF(object):
         """
         print all items which should be recommended for each user 
         """
-        print 'Recommendation: '
+        print('Recommendation: ')
         for u in xrange(self.n_users):
             recommended_items = self.recommend(u)
             if self.uuCF:
-                print '    Recommend item(s):', recommended_items, 'for user', u
+                print( '    Recommend item(s):', recommended_items, 'for user', u)
             else: 
-                print '    Recommend item', u, 'for user(s) : ', recommended_items
+                print('    Recommend item', u, 'for user(s) : ', recommended_items)
