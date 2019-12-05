@@ -10,10 +10,10 @@ import torch.utils.data as data
 import torch.backends.cudnn as cudnn
 from tensorboardX import SummaryWriter
 
-from implicite import model
-from implicite import config
-from implicite import evaluate
-from implicite import data_utils
+from resystools.implicite import model
+from resystools.implicite import config
+from resystools.implicite import evaluate
+from resystools.implicite import data_utils
 
 def scheduler(optimizer,lr):
     for param_group in optimizer.param_groups:
