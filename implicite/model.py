@@ -109,4 +109,4 @@ class NCF(nn.Module):
 			concat = torch.cat((output_GMF, output_MLP), -1)
 
 		prediction = self.predict_layer(concat)
-		return prediction.view(-1)z
+		return prediction.view(-1)
