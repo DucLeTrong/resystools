@@ -7,7 +7,7 @@ model = 'MLP'
 assert model in ['MLP', 'GMF', 'NeuMF-end', 'NeuMF-pre']
 
 # paths
-main_path = '/content/NCF/Data/'
+main_path = os.path.dirname(__file__)+'/Data/'
 
 train_rating = main_path + '{}.rating'.format(dataset)
 test_rating = main_path + '{}.test.rating'.format(dataset)
