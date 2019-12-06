@@ -181,7 +181,7 @@ class MF(CF):
         
         return predicted_ratings
     
-    def evaluate_RMSE(self, rate_test):
+    def evaluate_rmse(self, rate_test):
         n_tests = rate_test.shape[0]
         SE = 0 # squared error
         for n in xrange(n_tests):
@@ -190,6 +190,16 @@ class MF(CF):
 
         RMSE = np.sqrt(SE/n_tests)
         return RMSE
+
+    def evaluate_mae(self, rate_test):
+        n_tests = rate_test.shape[0]
+        SAE = 0 # squared error
+        for n in xrange(n_tests):
+            pred = self.pred(rate_test[n, 0], rate_test[n, 1])
+            SAE += abs(pred - rate_test[n, 2])
+
+        MAE = SE/n_tests
+        return MAE
 
 class UserBase(CF):
     def __init__(self, Y_data, k, dist_func = cosine_similarity, uuCF = 1):
@@ -281,7 +291,22 @@ class UserBase(CF):
         """
         if self.uuCF: return self.__pred(u, i, normalized)
         return self.__pred(i, u, normalized)
-            
+    
+    def evaluate_rmse(self, rate_test)
+        n_tests = rate_test.shape[0]
+        SE = 0
+        for n in range(n_tests):
+            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            SE += (pred - rate_test[n, 2])**2 
+        return np.sqrt(SE/n_tests)
+    
+    def evaluate_mae(self, rate_test)
+        n_tests = rate_test.shape[0]
+        SAE = 0
+        for n in range(n_tests):
+            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            SAE += abs(pred - rate_test[n, 2])
+        return SAE/n_tests
     
     def recommend(self, u):
         """
@@ -423,7 +448,21 @@ class ItemBase(CF):
         if self.uuCF: return self.__pred(u, i, normalized)
         return self.__pred(i, u, normalized)
             
+    def evaluate_rmse(self, rate_test)
+        n_tests = rate_test.shape[0]
+        SE = 0
+        for n in range(n_tests):
+            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            SE += (pred - rate_test[n, 2])**2 
+        return np.sqrt(SE/n_tests)
     
+    def evaluate_mae(self, rate_test)
+        n_tests = rate_test.shape[0]
+        SAE = 0
+        for n in range(n_tests):
+            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            SAE += abs(pred - rate_test[n, 2])
+        return SAE/n_tests
     # def recommend(self, u):
     #     """
     #     Determine all items should be recommended for user u.

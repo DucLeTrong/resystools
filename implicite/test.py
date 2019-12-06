@@ -10,7 +10,7 @@ import torch.utils.data as data
 import torch.backends.cudnn as cudnn
 from tensorboardX import SummaryWriter
 
-from resystools.implicite import model
+from resystools.implicite import model as mod
 from resystools.implicite import config
 from resystools.implicite import evaluate
 from resystools.implicite import data_utils
@@ -24,8 +24,8 @@ def get_lr(optimizer):
     for param_group in optimizer.param_groups:
         return param_group['lr']
 
-def run_test(model='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, top_k=10,
-            num_layers=3, num_ng=4, test_num_ng=99, out=True, gpu="0"):
+def run_test(model_name='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, top_k=10,
+            factor_num=32, num_layers=3, num_ng=4, test_num_ng=99, out=True, gpu="0"):
     torch.manual_seed(12)
     torch.cuda.manual_seed(12)
     np.random.seed(12)
@@ -46,7 +46,7 @@ def run_test(model='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, t
 
     print("Data is loaded!")
 ########################### CREATE MODEL #################################
-    if model == 'NeuMF-pre':
+    if model_name == 'NeuMF-pre':
         assert os.path.exists(config.GMF_model_path), 'lack of GMF model'
         assert os.path.exists(config.MLP_model_path), 'lack of MLP model'
         GMF_model = torch.load(config.GMF_model_path)
@@ -55,12 +55,12 @@ def run_test(model='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, t
         GMF_model = None
         MLP_model = None
 
-    model = model.NCF(user_num, item_num, factor_num, num_layers, 
-                            dropout, model, GMF_model, MLP_model)
+    model = mod.NCF(user_num, item_num, factor_num, num_layers, 
+                            dropout, model_name, GMF_model, MLP_model)
     model.cuda()
     loss_function = nn.BCEWithLogitsLoss()
 
-    if model == 'NeuMF-pre':
+    if model_name == 'NeuMF-pre':
         optimizer = optim.SGD(model.parameters(), lr=lr)
     else:
         optimizer = optim.Adam(model.parameters(), lr=lr)
@@ -100,7 +100,7 @@ def run_test(model='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, t
             count += 1
 
         model.eval()
-        HR, NDCG = evaluate.metrics(model, test_loader, args.top_k)
+        HR, NDCG = evaluate.metrics(model, test_loader, top_k)
         elapsed_time = time.time() - start_time
 
         # with open(path_log, "a") as fi:
@@ -111,11 +111,11 @@ def run_test(model='NeuMF-end',lr=0.001, dropout=0, batch_size=256, epochs=50, t
 
         if HR > best_hr:
             best_hr, best_ndcg, best_epoch = HR, NDCG, epoch
-            if args.out:
+            if out:
                 if not os.path.exists(config.model_path):
                     os.mkdir(config.model_path)
                 torch.save(model, 
                     '{}{}.pth'.format(config.model_path, config.model))
 
-    print("End. Best epoch {:03d}: HR = {:.3f}, NDCG = {:.3f}".format(
+        print("End. Best epoch {:03d}: HR = {:.3f}, NDCG = {:.3f}".format(
                                         best_epoch, best_hr, best_ndcg))
