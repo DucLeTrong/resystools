@@ -148,8 +148,9 @@ class MF(CF):
             self.updateX()
             self.updateW()
             if (it + 1) % self.print_every == 0:
-                rmse_train = self.evaluate_RMSE(self.Y_data)
-                print 'iter =', it + 1, ', loss =', self.loss(), ', RMSE train =', rmse_train
+                rmse_train = self.evaluate_rmse(self.Y_data)
+                mae_train = self.evaluate_mae(self.Y_data)
+                print('iter =', it + 1, ', loss =', self.loss(), ', RMSE train =', rmse_train, ',MAE train =', mae_train)
     
     
     def pred(self, u, i):

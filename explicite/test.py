@@ -1,11 +1,13 @@
 from resystools.explicite.cfmodel import *
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import os
+path = os.main_path = os.path.dirname(__file__)+'/Data/'
 
 def run_test_mf():
     r_cols = ['user_id', 'movie_id', 'rating', 'unix_timestamp']
 
-    ratings_base = pd.read_csv('ml-1m/ratings.dat', sep='::', names=r_cols, encoding='latin-1')
+    ratings_base = pd.read_csv(path+'ml-1m/ratings.dat', sep='::', names=r_cols, encoding='latin-1')
     ratings = ratings_base.as_matrix()
     ratings[:, :2] -= 1
     rate_train, rate_test = train_test_split(ratings, test_size=0.33, random_state=42)
@@ -17,8 +19,8 @@ def run_test_mf():
 def run_test_ib():
     r_cols = ['user_id', 'movie_id', 'rating', 'unix_timestamp']
 
-    ratings_base = pd.read_csv('ml-100k/ub.base', sep='\t', names=r_cols, encoding='latin-1')
-    ratings_test = pd.read_csv('ml-100k/ub.test', sep='\t', names=r_cols, encoding='latin-1')
+    ratings_base = pd.read_csv(path+'ml-100k/ub.base', sep='\t', names=r_cols, encoding='latin-1')
+    ratings_test = pd.read_csv(path+'ml-100k/ub.test', sep='\t', names=r_cols, encoding='latin-1')
 
     rate_train = ratings_base.as_matrix()
     rate_test = ratings_test.as_matrix()
@@ -34,8 +36,8 @@ def run_test_ib():
 def run_test_ub():
     r_cols = ['user_id', 'movie_id', 'rating', 'unix_timestamp']
 
-    ratings_base = pd.read_csv('ml-100k/ub.base', sep='\t', names=r_cols, encoding='latin-1')
-    ratings_test = pd.read_csv('ml-100k/ub.test', sep='\t', names=r_cols, encoding='latin-1')
+    ratings_base = pd.read_csv(path+'ml-100k/ub.base', sep='\t', names=r_cols, encoding='latin-1')
+    ratings_test = pd.read_csv(path+'ml-100k/ub.test', sep='\t', names=r_cols, encoding='latin-1')
 
     rate_train = ratings_base.as_matrix()
     rate_test = ratings_test.as_matrix()
