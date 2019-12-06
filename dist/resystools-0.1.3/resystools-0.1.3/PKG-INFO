@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: resystools
+Version: 0.1.3
+Summary: a lib with some recommendation algorithms
+Home-page: https://github.com/DucLeTrong/resystools
+Author: Trong Duc Le
+Author-email: trongduclebk@gmail.com
+License: MIT
+Description: UNKNOWN
+Keywords: RECOMMENDATION,RECOMMENDER
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6

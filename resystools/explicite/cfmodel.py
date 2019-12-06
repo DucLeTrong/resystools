@@ -60,7 +60,7 @@ class MF(CF):
 
         users = self.Y_data[:, user_col] 
         self.muu = np.zeros((n_objects,))
-        for n in xrange(n_objects):
+        for n in range(n_objects):
             # row indices of rating done by user n
             # since indices need to be integers, we need to convert
             ids = np.where(users == n)[0].astype(np.int32)
@@ -176,7 +176,7 @@ class MF(CF):
         
         y_pred = self.X.dot(self.W[:, user_id])
         predicted_ratings= []
-        for i in xrange(self.n_items):
+        for i in range(self.n_items):
             if i not in items_rated_by_u:
                 predicted_ratings.append((i, y_pred[i]))
         
@@ -185,7 +185,7 @@ class MF(CF):
     def evaluate_rmse(self, rate_test):
         n_tests = rate_test.shape[0]
         SE = 0 # squared error
-        for n in xrange(n_tests):
+        for n in range(n_tests):
             pred = self.pred(rate_test[n, 0], rate_test[n, 1])
             SE += (pred - rate_test[n, 2])**2 
 
@@ -195,11 +195,11 @@ class MF(CF):
     def evaluate_mae(self, rate_test):
         n_tests = rate_test.shape[0]
         SAE = 0 # squared error
-        for n in xrange(n_tests):
+        for n in range(n_tests):
             pred = self.pred(rate_test[n, 0], rate_test[n, 1])
             SAE += abs(pred - rate_test[n, 2])
 
-        MAE = SE/n_tests
+        MAE = SAE/n_tests
         return MAE
 
 class UserBase(CF):
@@ -293,19 +293,19 @@ class UserBase(CF):
         if self.uuCF: return self.__pred(u, i, normalized)
         return self.__pred(i, u, normalized)
     
-    def evaluate_rmse(self, rate_test)
+    def evaluate_rmse(self, rate_test):
         n_tests = rate_test.shape[0]
         SE = 0
         for n in range(n_tests):
-            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            pred = self.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
             SE += (pred - rate_test[n, 2])**2 
         return np.sqrt(SE/n_tests)
     
-    def evaluate_mae(self, rate_test)
+    def evaluate_mae(self, rate_test):
         n_tests = rate_test.shape[0]
         SAE = 0
         for n in range(n_tests):
-            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            pred = self.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
             SAE += abs(pred - rate_test[n, 2])
         return SAE/n_tests
     
@@ -319,7 +319,7 @@ class UserBase(CF):
         ids = np.where(self.Y_data[:, 0] == u)[0]
         items_rated_by_u = self.Y_data[ids, 1].tolist()              
         recommended_items = []
-        for i in xrange(self.n_items):
+        for i in range(self.n_items):
             if i not in items_rated_by_u:
                 rating = self.__pred(u, i)
                 if rating > 0: 
@@ -338,7 +338,7 @@ class UserBase(CF):
         items_rated_by_u = self.Y_data[ids, 1].tolist()              
         recommended_items = []
     
-        for i in xrange(self.n_items):
+        for i in range(self.n_items):
             if i not in items_rated_by_u:
                 rating = self.__pred(u, i)
                 if rating > 0: 
@@ -351,7 +351,7 @@ class UserBase(CF):
         print all items which should be recommended for each user 
         """
         # print 'Recommendation: '
-        for u in xrange(self.n_users):
+        for u in range(self.n_users):
             recommended_items = self.recommend(u)
             if self.uuCF:
                 print('    Recommend item(s):', recommended_items, 'for user', u)
@@ -449,19 +449,19 @@ class ItemBase(CF):
         if self.uuCF: return self.__pred(u, i, normalized)
         return self.__pred(i, u, normalized)
             
-    def evaluate_rmse(self, rate_test)
+    def evaluate_rmse(self, rate_test):
         n_tests = rate_test.shape[0]
         SE = 0
         for n in range(n_tests):
-            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            pred = self.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
             SE += (pred - rate_test[n, 2])**2 
         return np.sqrt(SE/n_tests)
     
-    def evaluate_mae(self, rate_test)
+    def evaluate_mae(self, rate_test):
         n_tests = rate_test.shape[0]
         SAE = 0
         for n in range(n_tests):
-            pred = rs.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
+            pred = self.pred(rate_test[n, 0], rate_test[n, 1], normalized = 0)
             SAE += abs(pred - rate_test[n, 2])
         return SAE/n_tests
     # def recommend(self, u):
@@ -474,7 +474,7 @@ class ItemBase(CF):
     #     ids = np.where(self.Y_data[:, 0] == u)[0]
     #     items_rated_by_u = self.Y_data[ids, 1].tolist()              
     #     recommended_items = []
-    #     for i in xrange(self.n_items):
+    #     for i in range(self.n_items):
     #         if i not in items_rated_by_u:
     #             rating = self.__pred(u, i)
     #             if rating > 0: 
@@ -493,7 +493,7 @@ class ItemBase(CF):
     #     items_rated_by_u = self.Y_data[ids, 1].tolist()              
     #     recommended_items = []
     
-    #     for i in xrange(self.n_items):
+    #     for i in range(self.n_items):
     #         if i not in items_rated_by_u:
     #             rating = self.__pred(u, i)
     #             if rating > 0: 
